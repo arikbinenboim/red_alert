@@ -49,3 +49,5 @@ Vitest covers the pure utils (`bbox`, `distance`, `overpassQueryBuilder`, `filte
 
 - The free OSRM demo server can return **identical** distance/duration for the `driving` and `foot` profiles on the same route — a quirk of the public demo instance, not a parsing bug (verified by comparing raw API responses).
 - The viewshed's 2.5D radial-horizon approach can produce a noticeably irregular (non-circular) shape on real terrain — that's expected and is the point of using real elevation data instead of a flat-circle mock.
+
+Deployed via Netlify + GitHub continuous deployment.
