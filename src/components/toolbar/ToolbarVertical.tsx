@@ -1,4 +1,4 @@
-import { Hand, Eye, Ruler } from 'lucide-react';
+import { Hand, Eye, Ruler, Satellite } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useAppStore } from '@/store/useAppStore';
@@ -13,6 +13,8 @@ const TOOLS: { mode: ToolMode; icon: typeof Hand; label: string }[] = [
 export function ToolbarVertical() {
   const toolMode = useAppStore((s) => s.toolMode);
   const setToolMode = useAppStore((s) => s.setToolMode);
+  const baseLayer = useAppStore((s) => s.baseLayer);
+  const setBaseLayer = useAppStore((s) => s.setBaseLayer);
 
   return (
     <div className="absolute right-4 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-2">
@@ -32,6 +34,25 @@ export function ToolbarVertical() {
           <TooltipContent side="left">{label}</TooltipContent>
         </Tooltip>
       ))}
+
+      <div className="my-1 h-px bg-zinc-700" />
+
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <Button
+              size="icon"
+              variant={baseLayer === 'satellite' ? 'default' : 'secondary'}
+              onClick={() => setBaseLayer(baseLayer === 'satellite' ? 'dark' : 'satellite')}
+            >
+              <Satellite size={18} />
+            </Button>
+          }
+        />
+        <TooltipContent side="left">
+          {baseLayer === 'satellite' ? 'Switch to dark map' : 'Switch to satellite'}
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 }
