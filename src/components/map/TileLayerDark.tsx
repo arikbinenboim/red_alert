@@ -1,13 +1,13 @@
 import { TileLayer } from 'react-leaflet';
 
-// Tile source tradeoff: OpenFreeMap serves vector tiles (MapLibre style/PBF),
-// which react-leaflet's TileLayer cannot render directly. CartoDB DarkMatter
-// is a free, keyless raster XYZ alternative that matches the dark tactical
-// theme. Swapping tile sources later only requires changing this config.
+// CartoDB DarkMatter tiles no longer serve valid tiles (404). Using ESRI
+// World Dark Gray Base instead — free, keyless, CORS-enabled. The URL uses
+// ESRI's {z}/{y}/{x} path order (row before column), which Leaflet handles
+// correctly via its {y}/{x} template variables.
 export const MAP_TILE_CONFIG = {
-  url: 'https://{s}.basemaps.cartocdn.com/dark_matter/{z}/{x}/{y}{r}.png',
+  url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
   attribution:
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    'Tiles &copy; <a href="https://www.esri.com/">Esri</a> &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
 };
 
 export function TileLayerDark() {

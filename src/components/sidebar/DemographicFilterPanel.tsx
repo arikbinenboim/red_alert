@@ -12,13 +12,13 @@ export function DemographicFilterPanel() {
         <label className="flex justify-between">
           <span>Population range</span>
           <span className="text-zinc-400">
-            {filters.populationRange[0]} – {filters.populationRange[1]}
+            {filters.populationRange[0].toLocaleString()} – {filters.populationRange[1].toLocaleString()}
           </span>
         </label>
         <Slider
           min={0}
-          max={10000}
-          step={100}
+          max={100000}
+          step={1000}
           value={filters.populationRange}
           onValueChange={(value) =>
             Array.isArray(value) && value.length === 2 &&

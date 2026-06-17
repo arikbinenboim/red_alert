@@ -15,7 +15,7 @@ export interface FiltersSlice {
 }
 
 const defaultFilters: FilterValues = {
-  populationRange: [0, 10000],
+  populationRange: [0, 100000],
   under18PctMax: 100,
   over65PctMax: 100,
   showOnlyWithSchool: false,

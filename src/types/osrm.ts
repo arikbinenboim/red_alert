@@ -1,4 +1,4 @@
-export type OsrmProfile = 'driving' | 'foot';
+export type OsrmProfile = 'car' | 'foot' | 'bike';
 
 export interface OsrmRouteResult {
   distanceKm: number;

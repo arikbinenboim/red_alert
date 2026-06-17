@@ -3,10 +3,13 @@ import type { RootState } from './useAppStore';
 
 export interface SelectionSlice {
   selectedSettlementId: string | null;
-  setSelectedSettlement: (id: string | null) => void;
+  selectedSettlementName: string | null;
+  setSelectedSettlement: (id: string | null, name?: string | null) => void;
 }
 
 export const createSelectionSlice: StateCreator<RootState, [], [], SelectionSlice> = (set) => ({
   selectedSettlementId: null,
-  setSelectedSettlement: (id) => set({ selectedSettlementId: id }),
+  selectedSettlementName: null,
+  setSelectedSettlement: (id, name = null) =>
+    set({ selectedSettlementId: id, selectedSettlementName: name }),
 });

@@ -26,6 +26,9 @@ export interface VillageDemographics {
 export interface VillageProperties {
   id: string;
   name: string;
+  nameEn?: string;
+  wikidata?: string;
+  wikipedia?: string;
   demographics: VillageDemographics;
 }
 

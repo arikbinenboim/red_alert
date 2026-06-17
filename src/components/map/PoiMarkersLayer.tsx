@@ -1,6 +1,6 @@
 import { CircleMarker, Tooltip } from 'react-leaflet';
 import { useEffect, useMemo } from 'react';
-import { sampleVillages } from '@/data/sampleVillages';
+import { useSettlementDatabase } from '@/hooks/useSettlementDatabase';
 import { useAppStore } from '@/store/useAppStore';
 import { useOverpassPois } from '@/hooks/useOverpassPois';
 import { polygonToBbox } from '@/utils/bbox';
@@ -15,10 +15,11 @@ const CATEGORY_COLORS: Record<PoiCategory, string> = {
 
 export function PoiMarkersLayer() {
   const selectedSettlementId = useAppStore((s) => s.selectedSettlementId);
+  const { settlements } = useSettlementDatabase();
 
   const selectedFeature = useMemo(
-    () => sampleVillages.features.find((f) => f.properties.id === selectedSettlementId) ?? null,
-    [selectedSettlementId],
+    () => settlements.features.find((f) => f.properties.id === selectedSettlementId) ?? null,
+    [settlements, selectedSettlementId],
   );
 
   const bbox = useMemo(

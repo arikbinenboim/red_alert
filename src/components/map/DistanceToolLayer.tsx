@@ -8,8 +8,9 @@ function lineStringToLatLngs(geometry: GeoJSON.LineString): [number, number][] {
 export function DistanceToolLayer() {
   const distancePointA = useAppStore((s) => s.distancePointA);
   const distancePointB = useAppStore((s) => s.distancePointB);
-  const drivingRouteGeometry = useAppStore((s) => s.drivingRouteGeometry);
+  const carRouteGeometry = useAppStore((s) => s.carRouteGeometry);
   const walkingRouteGeometry = useAppStore((s) => s.walkingRouteGeometry);
+  const bikingRouteGeometry = useAppStore((s) => s.bikingRouteGeometry);
 
   return (
     <>
@@ -24,9 +25,9 @@ export function DistanceToolLayer() {
           pathOptions={{ color: '#f43f5e', weight: 2, dashArray: '6 6' }}
         />
       )}
-      {drivingRouteGeometry && (
+      {carRouteGeometry && (
         <Polyline
-          positions={lineStringToLatLngs(drivingRouteGeometry)}
+          positions={lineStringToLatLngs(carRouteGeometry)}
           pathOptions={{ color: '#3b82f6', weight: 3 }}
         />
       )}
@@ -34,6 +35,12 @@ export function DistanceToolLayer() {
         <Polyline
           positions={lineStringToLatLngs(walkingRouteGeometry)}
           pathOptions={{ color: '#14b8a6', weight: 3, dashArray: '2 6' }}
+        />
+      )}
+      {bikingRouteGeometry && (
+        <Polyline
+          positions={lineStringToLatLngs(bikingRouteGeometry)}
+          pathOptions={{ color: '#f97316', weight: 3, dashArray: '8 4' }}
         />
       )}
     </>

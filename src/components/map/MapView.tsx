@@ -59,8 +59,8 @@ function MapClickHandler() {
 export function MapView() {
   return (
     <MapContainer
-      center={[31.6, 34.8]}
-      zoom={12}
+      center={[31.97, 35.11]}
+      zoom={9}
       preferCanvas
       className="isolate h-full w-full"
     >

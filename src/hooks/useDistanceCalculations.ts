@@ -4,10 +4,10 @@ import { aerialDistanceKm, walkingTimeMinFromKm } from '@/utils/distance';
 import { fetchOsrmRoute } from '@/services/osrmApi';
 
 /**
- * Drives the distance tool's three parallel computations once both points
- * are set: aerial + extrapolated off-road walking time resolve instantly
- * (turf, no network), while OSRM driving/walking routes are fetched in
- * parallel and update the store as they resolve.
+ * Drives the distance tool's four parallel computations once both points are
+ * set: aerial + extrapolated off-road walking time resolve instantly (turf,
+ * no network), while OSRM car/foot/bike routes are fetched in parallel and
+ * update the store as they resolve.
  */
 export function useDistanceCalculations() {
   const distancePointA = useAppStore((s) => s.distancePointA);
@@ -27,13 +27,11 @@ export function useDistanceCalculations() {
     setRoutesLoading(true);
     setRoutesError(null);
 
-    const drivingPromise = fetchOsrmRoute(distancePointA, distancePointB, 'driving').then(
-      (route) => {
-        if (cancelled) return;
-        setDistanceResults({ drivingKm: route.distanceKm, drivingMin: route.durationMin });
-        setRouteGeometry('driving', route.geometry);
-      },
-    );
+    const carPromise = fetchOsrmRoute(distancePointA, distancePointB, 'car').then((route) => {
+      if (cancelled) return;
+      setDistanceResults({ drivingKm: route.distanceKm, drivingMin: route.durationMin });
+      setRouteGeometry('car', route.geometry);
+    });
 
     const walkingPromise = fetchOsrmRoute(distancePointA, distancePointB, 'foot').then((route) => {
       if (cancelled) return;
@@ -41,11 +39,17 @@ export function useDistanceCalculations() {
       setRouteGeometry('walking', route.geometry);
     });
 
-    Promise.allSettled([drivingPromise, walkingPromise]).then((results) => {
+    const bikingPromise = fetchOsrmRoute(distancePointA, distancePointB, 'bike').then((route) => {
+      if (cancelled) return;
+      setDistanceResults({ bikingKm: route.distanceKm, bikingMin: route.durationMin });
+      setRouteGeometry('bike', route.geometry);
+    });
+
+    Promise.allSettled([carPromise, walkingPromise, bikingPromise]).then((results) => {
       if (cancelled) return;
       const errors = results.filter((r) => r.status === 'rejected') as PromiseRejectedResult[];
       if (errors.length > 0) {
-        setRoutesError(`OSRM route lookup failed (${errors.length}/2) — public instance may be rate-limited.`);
+        setRoutesError(`OSRM route lookup failed (${errors.length}/3) — public instance may be rate-limited.`);
       }
       setRoutesLoading(false);
     });
