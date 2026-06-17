@@ -16,7 +16,7 @@ describe('fetchOsrmRoute', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    const result = await fetchOsrmRoute({ lat: 52.51, lon: 13.37 }, { lat: 52.52, lon: 13.39 }, 'driving');
+    const result = await fetchOsrmRoute({ lat: 52.51, lon: 13.37 }, { lat: 52.52, lon: 13.39 }, 'car');
 
     expect(result.distanceKm).toBeCloseTo(1.74, 6);
     expect(result.durationMin).toBeCloseTo(4, 6);
@@ -38,11 +38,11 @@ describe('fetchOsrmRoute', () => {
 
   it('throws when the response is not ok', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 504, statusText: 'Gateway Timeout' }));
-    await expect(fetchOsrmRoute({ lat: 1, lon: 2 }, { lat: 3, lon: 4 }, 'driving')).rejects.toThrow(/504/);
+    await expect(fetchOsrmRoute({ lat: 1, lon: 2 }, { lat: 3, lon: 4 }, 'car')).rejects.toThrow(/504/);
   });
 
   it('throws when no route is returned', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => ({ routes: [] }) }));
-    await expect(fetchOsrmRoute({ lat: 1, lon: 2 }, { lat: 3, lon: 4 }, 'driving')).rejects.toThrow(/no route/);
+    await expect(fetchOsrmRoute({ lat: 1, lon: 2 }, { lat: 3, lon: 4 }, 'car')).rejects.toThrow(/no route/);
   });
 });
